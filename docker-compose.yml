@@ -17,6 +17,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
+    image: greatertomi/shortit-server:latest
     depends_on:
       - mongo
     env_file:
