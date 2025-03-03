@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: shortit-server
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    envVars:
+      - name: PORT
+        value: 8000
+      - name: MONGO_USERNAME
+        sync: false
+      - name: MONGO_PASSWORD
+        sync: false
+    disk:
+      name: mondgodb-data
+      mountPath: /data/db
+      sizeGB: 1
+
+  - type: pserv
+    name: shortit-mongo
+    env: docker
+    dockerCommand: mongo --bind_ip 0.0.0.0
+    plan: starter
+    disk:
+      name: mondgodb-data
+      mountPath: /data/db
+      sizeGB: 1
+    envVars:
+      - key: MONGO_INITDB_ROOT_USERNAME
+        fromService:
+          type: web
+          name: shortit-server
+          envVarKey: MONGO_USERNAME
+      - key: MONGO_INITDB_ROOT_PASSWORD
+        fromService:
+          type: web
+          name: shortit-server
+          envVarKey: MONGO_PASSWORD
+
+databases:
+  - name: mondgodb
+    plan: starter
+    databaseName: shortit
+    user: shortit

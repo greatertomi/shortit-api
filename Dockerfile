@@ -15,8 +15,7 @@ COPY src/ ./src/
 # Build the application
 RUN npm run build
 
-# Verify the build output exists
-RUN ls -la dist/
+EXPOSE 8000
 
-# Run the application
-CMD ["node", "dist/index.js"]
+CMD ["npm", "start"]
+

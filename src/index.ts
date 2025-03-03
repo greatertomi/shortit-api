@@ -8,7 +8,9 @@ import connectDb from './db/connect';
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT;
+
+const mongoUri = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.RENDER_SERVICE_NAME}-mongo:27017/shortit`;
 
 app.use(cors());
 app.use(express.json());
@@ -21,7 +23,7 @@ app.use('/api/v1', urlRoute);
 
 const start = async () => {
   try {
-    await connectDb(process.env.DATABASE_URL || '');
+    await connectDb(mongoUri);
     app.listen(port, () => {
       logger.info(`Server is started at port: http://localhost:${port}`);
     });
