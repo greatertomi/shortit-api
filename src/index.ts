@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 
-const mongoUri = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.RENDER_SERVICE_NAME}-mongo:27017/shortit`;
+const mongoUri = process.env.DATABASE_URL || '';
 
 app.use(cors());
 app.use(express.json());
